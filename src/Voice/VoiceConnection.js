@@ -125,9 +125,6 @@ class VoiceConnection extends EventEmitter {
 				self.streamTime = count * length;
 
 				setTimeout(send, length + (nextTime - Date.now()));
-				
-				if (!self.playing)
-					self.setSpeaking(true);
 
 				retStream.emit("time", self.streamTime);
 
@@ -175,6 +172,7 @@ class VoiceConnection extends EventEmitter {
 				self.playing=false;
 				self.emit("error", "No Opus!");
 				self.client.emit("debug", "Tried to use node-opus, but opus not available - install it!");
+				console.log("[discord.js] node-opus is required to play raw, non PCM buffers - please install the module.");
 				return;
 			}
 			var buffer = self.encoder.opusBuffer(rawbuffer);
